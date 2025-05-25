@@ -1,10 +1,15 @@
-from matplotlib.image import imread
-
 import numpy as np 
 import cv2
 import os
 import sys
 from termcolor import colored, cprint
+
+
+## ok now i need to get a collection of images. 
+
+## lets try with gifs first.
+
+
 
 def printFrame(image, canvas, startWidth, startHeight):
     lst = [] 
@@ -71,19 +76,22 @@ def findTheMiddle(image):
     return start
 
 
+def main():
+    canvas = createCanvas()
+    clearFrame()
+    frame = cv2.imread("./images/earth.gif")
 
-canvas = createCanvas()
-clearFrame()
-image = resizeImage(imread("./sq.jpg"))
-middlePoints = findTheMiddle(image)
-printFrame(image, canvas, middlePoints["width"], middlePoints["height"])
+    print(frame)
+    # image = resizeImage(cv2.cvtColor(cv2.imread("./images/earth.gif"), cv2.COLOR_BGR2RGB))
 
-### need to get image size
+    # MediaFile = Image.open("./images/sq.jpg")
+    # for frame in ImageSequence.Iterator(MediaFile):
+    #     print(frame.convert("RGB"))
 
-### work out image ratio
+    
 
-### get smaller value from users terminal size 
 
-### rescale image to fit in the terminal
+    # middlePoints = findTheMiddle(image)
+    # printFrame(image, canvas, middlePoints["width"], middlePoints["height"])
 
-### I want it centered in the terminal.........
+main()
