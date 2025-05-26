@@ -4,12 +4,14 @@ import os
 import sys
 from termcolor import colored, cprint
 import imageio.v3 as iio
+from time import time
 
 
 def printFrame(image, canvas, startWidth, startHeight):
     lst = [] 
     vctr = np.array(lst) 
     imgRowIndex = 0
+    
 
     for idx, row in enumerate(canvas):
         for idx2, pixel in enumerate(row):
@@ -18,15 +20,13 @@ def printFrame(image, canvas, startWidth, startHeight):
             ## print only if that row has data
             if(idx2 >= startWidth and imgRowIndex < len(image[0]) and idx < len(image)):
                 imageBlot = image[idx][imgRowIndex]
-                t = colored(".", ( imageBlot[0],  imageBlot[1],  imageBlot[2]),  ( imageBlot[0],  imageBlot[1],  imageBlot[2]))
+                t = colored(" ", ( imageBlot[0],  imageBlot[1],  imageBlot[2]),  ( imageBlot[0],  imageBlot[1],  imageBlot[2]))
                 lst.append(t)
                 imgRowIndex+= 1
             else:
                 lst.append(" ")       
         lst.append('\n')
         imgRowIndex = 0
-
-
     print(*lst, sep='')
 
 def clearFrame():
@@ -56,7 +56,7 @@ def createCanvas():
     return matrix
 
 def findTheMiddle(image):
-    width,height = os.get_terminal_size() ## come back< - i had this as a function bu the value kept changing
+    width,height = os.get_terminal_size() ## come back< - i had this as a function bu the value kept changing por quoi?
     imageHeight,imageWidth, _mode = image.shape
     midScreenWidth = width / 2
     midImageWidth = imageWidth / 2
@@ -74,12 +74,11 @@ def findTheMiddle(image):
 def main():
     canvas = createCanvas()
     clearFrame()
+    start = time()
+    endTime = start + 10
 
     middleWidth = None
     middleHeight = None
-
-
-    # image = resizeImage(cv2.cvtColor(cv2.imread("./images/earth.gif"), cv2.COLOR_BGR2RGB))
 
     for idx, frame in enumerate(iio.imiter("<video0>")):
 
@@ -93,6 +92,10 @@ def main():
             clearFrame()
             middlePoints = findTheMiddle(frame)
             printFrame(frame, canvas, middleWidth, middleHeight )
+        
+        if(time() >= endTime):
+            ## need to work out smoother way to stop
+            break
 
        
 
