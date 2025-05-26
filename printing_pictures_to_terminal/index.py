@@ -76,7 +76,6 @@ def main():
     clearFrame()
     start = time()
     endTime = start + 10
-
     middleWidth = None
     middleHeight = None
 
@@ -96,9 +95,5 @@ def main():
         if(time() >= endTime):
             ## need to work out smoother way to stop
             break
-
-       
-
-      
 
 main()
