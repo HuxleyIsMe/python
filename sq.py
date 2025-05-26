@@ -3,12 +3,7 @@ import cv2
 import os
 import sys
 from termcolor import colored, cprint
-
-
-## ok now i need to get a collection of images. 
-
-## lets try with gifs first.
-
+import imageio.v3 as iio
 
 
 def printFrame(image, canvas, startWidth, startHeight):
@@ -79,19 +74,28 @@ def findTheMiddle(image):
 def main():
     canvas = createCanvas()
     clearFrame()
-    frame = cv2.imread("./images/earth.gif")
 
-    print(frame)
+    middleWidth = None
+    middleHeight = None
+
+
     # image = resizeImage(cv2.cvtColor(cv2.imread("./images/earth.gif"), cv2.COLOR_BGR2RGB))
 
-    # MediaFile = Image.open("./images/sq.jpg")
-    # for frame in ImageSequence.Iterator(MediaFile):
-    #     print(frame.convert("RGB"))
+    for idx, frame in enumerate(iio.imiter("<video0>")):
 
-    
+        ## we can't keep up with the framerate of the video so we will skip frames
+        if(idx % 60 == 0):
+            frame = resizeImage(frame)
+            if(middleWidth is None or middleHeight is None):
+                middlePoints = findTheMiddle(frame)
+                middleWidth = middlePoints["width"]
+                middleHeight = middlePoints["height"]
+            clearFrame()
+            middlePoints = findTheMiddle(frame)
+            printFrame(frame, canvas, middleWidth, middleHeight )
 
+       
 
-    # middlePoints = findTheMiddle(image)
-    # printFrame(image, canvas, middlePoints["width"], middlePoints["height"])
+      
 
 main()
